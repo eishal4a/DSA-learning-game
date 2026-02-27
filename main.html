@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DSA Learning Game 💕</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+            margin: 0;
+            text-align: center;
+        }
+        
+        h1 {
+            margin-top: 20px;
+            color: #5a005a;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            width: 22%;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            background: #f06292;
+            color: white;
+        }
+        
+        button:hover {
+            background: #ec407a;
+        }
+        
+        input {
+            padding: 8px;
+            width: 60%;
+            margin-bottom: 10px;
+        }
+        
+        .stack-box,
+        .queue-box,
+        .node {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 6px;
+            display: inline-block;
+            min-width: 40px;
+        }
+        
+        .stack-box {
+            background: #f8bbd0;
+        }
+        
+        .queue-box {
+            background: #bbdefb;
+        }
+        
+        .node {
+            background: #c8e6c9;
+        }
+        
+        .arrow {
+            font-weight: bold;
+            margin: 0 5px;
+            font-size: 18px;
+        }
+        
+        #explanation {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🎮 Learn DSA Step by Step 💕</h1>
+
+    <input type="text" id="valueInput" placeholder="Enter value">
+
+    <div class="container">
+
+        <div class="card">
+            <h2>📚 Stack</h2>
+            <button onclick="pushStack()">Push</button>
+            <button onclick="popStack()">Pop</button>
+            <div id="stackDisplay"></div>
+        </div>
+
+        <div class="card">
+            <h2>🚗 Queue</h2>
+            <button onclick="enqueue()">Enqueue</button>
+            <button onclick="dequeue()">Dequeue</button>
+            <div id="queueDisplay"></div>
+        </div>
+
+        <div class="card">
+            <h2>🔗 Singly LL</h2>
+            <button onclick="addNode()">Add</button>
+            <button onclick="removeNode()">Remove</button>
+            <div id="listDisplay"></div>
+        </div>
+
+        <div class="card">
+            <h2>🔁 Doubly LL</h2>
+            <button onclick="addDNode()">Add</button>
+            <button onclick="removeDNode()">Remove</button>
+            <div id="dlistDisplay"></div>
+        </div>
+
+    </div>
+
+    <div id="explanation">
+        Click a button to see what is happening 💡
+    </div>
+
+    <script>
+        let stack = [];
+        let queue = [];
+        let linkedList = [];
+        let doublyList = [];
+
+        function explain(text) {
+            document.getElementById("explanation").innerText = text;
+        }
+
+        function getInput() {
+            let value = document.getElementById("valueInput").value;
+            document.getElementById("valueInput").value = "";
+            return value;
+        }
+
+        /* STACK */
+        function renderStack() {
+            let display = document.getElementById("stackDisplay");
+            display.innerHTML = "";
+            for (let i = stack.length - 1; i >= 0; i--) {
+                display.innerHTML += `<div class="stack-box">${stack[i]}</div><br>`;
+            }
+        }
+
+        function pushStack() {
+            let val = getInput();
+            if (val) {
+                stack.push(val);
+                renderStack();
+                explain("Stack follows LIFO (Last In First Out). The last element added will be removed first.");
+            }
+        }
+
+        function popStack() {
+            if (stack.length) {
+                stack.pop();
+                renderStack();
+                explain("Pop removes the TOP element because Stack works like a pile of books.");
+            }
+        }
+
+        /* QUEUE */
+        function renderQueue() {
+            let display = document.getElementById("queueDisplay");
+            display.innerHTML = "";
+            queue.forEach(item => {
+                display.innerHTML += `<div class="queue-box">${item}</div>`;
+            });
+        }
+
+        function enqueue() {
+            let val = getInput();
+            if (val) {
+                queue.push(val);
+                renderQueue();
+                explain("Queue follows FIFO (First In First Out). New elements join at the end.");
+            }
+        }
+
+        function dequeue() {
+            if (queue.length) {
+                queue.shift();
+                renderQueue();
+                explain("Dequeue removes the FIRST element because Queue works like a line of people.");
+            }
+        }
+
+        /* SINGLY LL */
+        function renderList() {
+            let display = document.getElementById("listDisplay");
+            display.innerHTML = "";
+            linkedList.forEach((item, index) => {
+                display.innerHTML += `<span class="node">${item}</span>`;
+                if (index !== linkedList.length - 1) {
+                    display.innerHTML += `<span class="arrow">→</span>`;
+                }
+            });
+        }
+
+        function addNode() {
+            let val = getInput();
+            if (val) {
+                linkedList.push(val);
+                renderList();
+                explain("Each node stores data and a pointer to the NEXT node only.");
+            }
+        }
+
+        function removeNode() {
+            if (linkedList.length) {
+                linkedList.pop();
+                renderList();
+                explain("Removing from end updates the previous node to point to NULL.");
+            }
+        }
+
+        /* DOUBLY LL */
+        function renderDList() {
+            let display = document.getElementById("dlistDisplay");
+            display.innerHTML = "";
+            doublyList.forEach((item, index) => {
+                display.innerHTML += `<span class="node">${item}</span>`;
+                if (index !== doublyList.length - 1) {
+                    display.innerHTML += `<span class="arrow">↔</span>`;
+                }
+            });
+        }
+
+        function addDNode() {
+            let val = getInput();
+            if (val) {
+                doublyList.push(val);
+                renderDList();
+                explain("Doubly Linked List has TWO pointers: previous and next. So we can move both directions.");
+            }
+        }
+
+        function removeDNode() {
+            if (doublyList.length) {
+                doublyList.pop();
+                renderDList();
+                explain("When removing, we update both previous and next connections.");
+            }
+        }
+    </script>
+
+</body>
+
+</html>
